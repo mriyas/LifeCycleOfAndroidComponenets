@@ -21,7 +21,7 @@ In the entire life cycle of Actvity ```onCreate()``` method finishes execution s
 ### onStart()
 When the activity enters the Started state, the system invokes this callback. The ```onStart()``` call makes the activity visible to the user, as the app prepares for the activity to enter the foreground and become interactive. For example, this method is where the app initializes the code that maintains the UI.
 
- The ```onStart()``` method will call if the activity  ```onStop``` method triggered  earlier and sometimes after the activity is brought into the forground. Consider an example, if you have started an activity say, FirstActivity  then   ```onStart()``` will trigger soon after the execution of  The ```onCreate()``` and on a button click you started another activty, say SecondActivity then that will be in the forground, FirstActivity  will be paused and will trigger ```onStop``` method of FirstActivity  after the execution of  ```onResume()``` method of SecondActivity. And  ```onStart()``` of FirstActivity  will trigger if your finishing SecondActivity.
+ The ```onStart()``` method will call if the activity  ```onStop``` method has been triggered  earlier and sometimes after the activity is brought into the forground. Consider an example, if you have started an activity say, FirstActivity  then   ```onStart()``` will trigger soon after the execution of  The ```onCreate()``` and on a button click you started another activty, say SecondActivity then that will be in the forground, FirstActivity  will be paused and will trigger ```onStop``` method of FirstActivity  after the execution of  ```onResume()``` method of SecondActivity. And  ```onStart()``` of FirstActivity  will trigger if your finishing SecondActivity.
  
  See the log
 ```
@@ -66,7 +66,17 @@ You should usually use the ```onPause()``` callback to:
 - Pausing the admob ads
 
 
->Generally,you should not use ```onPause()``` to store user changes (such as personal information entered into a form) to permanent storage. The only time you should persist user changes to permanent storage within onPause() is when you're certain users expect the changes to be auto-saved (such as when drafting an email). However, you should avoid performing CPU-intensive work during onPause(), such as writing to a database, because it can slow the visible transition to the next activity (you should instead perform heavy-load shutdown operations during onStop()).
+>**NOTE:** Generally,you should not use ``onPause()`` to store user changes (such as personal information entered into a form) to permanent storage. The only time you should persist user changes to permanent storage within onPause() is when you're certain users expect the changes to be auto-saved (such as when drafting an email). However, you should avoid performing CPU-intensive work during onPause(), such as writing to a database, because it can slow the visible transition to the next activity (you should instead perform heavy-load shutdown operations during onStop()).
 
+### onStop()
+When your activity is no longer visible to the user, it has entered the Stopped state, and the system invokes the ``onStop()`` callback. This may occur, for example, when a newly launched activity covers the entire screen. The system may also call `onStop()` when the activity has finished running, and is about to be terminated.
 
+#### onRestart()
+The `onRestart()` is called only if `onStop()` has been called before
+
+There are a few of key scenarios in which your activity is stopped and restarted:
+
+- The user opens the Recent Apps window and switches from your app to another app. The activity in your app that's currently in the foreground is stopped. If the user returns to your app from the Home screen launcher icon or the Recent Apps window, the activity restarts.
+- The user performs an action in your app that starts a new activity. The current activity is stopped when the second activity is created. If the user then presses the Back button, the first activity is restarted.
+- The user receives a phone call while using your app on his or her phone.
 
